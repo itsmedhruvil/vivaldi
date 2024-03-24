@@ -1,6 +1,6 @@
 import {Client, Events, GatewayIntentBits} from 'discord.js';
 import dotenv from 'dotenv';
-import * as commands from './commands/play.js';
+import * as commands from './commands/Utilities/play.js';
 dotenv.config();
 
 const client = new Client({
@@ -15,4 +15,4 @@ client.on(Events.ClientReady, () => {
     console.log(client.user.tag + ' is ready!');
 });
 
-client.login(process.env.token);
+client.login(process.env.TOKEN);

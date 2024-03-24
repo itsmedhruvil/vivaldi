@@ -1,20 +1,19 @@
 import { REST, Routes } from 'discord.js';
-import { config } from 'dotenv';
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { config } from 'dotenv';
+
 
 config();
 
-const token = process.env.token;
-const clientId = process.env.clientId;
-const guildId = process.env.serverId;
-
-
+const token = process.env.TOKEN;
+const clientId = process.env.CLIENT_ID;
+const guildId = process.env.GUILD_ID;
 // Construct and prepare an instance of the REST module
 
 const commands = [];
 // Grab all the command folders from the commands directory you created earlier
-const foldersPath = join(__dirname, 'commands');
+const foldersPath = join(new URL('.', import.meta.url).pathname, 'commands');
 const commandFolders = readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
@@ -24,7 +23,7 @@ for (const folder of commandFolders) {
 	// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
 	for (const file of commandFiles) {
 		const filePath = join(commandsPath, file);
-		const command = require(filePath);
+		const command = import (filePath);
 		if ('data' in command && 'execute' in command) {
 			commands.push(command.data.toJSON());
 		} else {
